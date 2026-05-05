@@ -1,1 +1,121 @@
-<p>students works!</p>
+<div class="students-page">
+  <aside class="student-sidebar">
+    <div class="sidebar-card">
+      <h3>Student Actions</h3>
+      <button type="button" (click)="selectSection('create')" [class.active]="activeSection === 'create'">Create Student</button>
+      <button type="button" (click)="selectSection('delete')" [class.active]="activeSection === 'delete'">Delete Student</button>
+    </div>
+
+    <div class="sidebar-card delete-panel">
+      <h4>Delete student list</h4>
+      <label for="gradeToDelete">Grade</label>
+      <select id="gradeToDelete" [(ngModel)]="gradeToDelete" name="gradeToDelete">
+        <option value="" disabled selected>Select a grade</option>
+        <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
+      </select>
+      <button type="button" (click)="deleteByGrade()" [disabled]="!gradeToDelete">Delete</button>
+    </div>
+
+    <div class="sidebar-card stats-panel">
+      <h4>Total students</h4>
+      <p>{{ students.length }}</p>
+      <h4>Available grades</h4>
+      <ul>
+        <li *ngFor="let grade of grades">{{ grade }}</li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="student-main">
+    <div class="student-form-container" *ngIf="activeSection === 'create'">
+      <h2>Create Student</h2>
+      <form (ngSubmit)="addStudent()" #studentForm="ngForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input id="firstName" name="firstName" type="text" [(ngModel)]="firstName" required />
+          </div>
+          <div class="form-group">
+            <label for="middleName">Middle Name</label>
+            <input id="middleName" name="middleName" type="text" [(ngModel)]="middleName" />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input id="lastName" name="lastName" type="text" [(ngModel)]="lastName" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" [(ngModel)]="gender" required>
+              <option value="" disabled>Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="grade">Grade</label>
+            <select id="grade" name="grade" [(ngModel)]="grade" required>
+              <option *ngFor="let gradeOption of gradeTabs" [value]="gradeOption">Grade {{ gradeOption }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="admissionNumber">Admission Number</label>
+            <input id="admissionNumber" name="admissionNumber" type="text" [(ngModel)]="admissionNumber" required />
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input id="dateOfBirth" name="dateOfBirth" type="date" [(ngModel)]="dateOfBirth" required />
+        </div>
+
+        <button type="submit" [disabled]="studentForm.invalid">Create Student</button>
+      </form>
+    </div>
+
+    <section class="student-list-section">
+      <h2>Student List</h2>
+      <div class="grade-navbar">
+        <button
+          *ngFor="let gradeTab of gradeTabs"
+          type="button"
+          (click)="selectGradeTab(gradeTab)"
+          [class.active]="selectedGradeTab === gradeTab"
+        >
+          Grade {{ gradeTab }}
+        </button>
+      </div>
+
+      <p class="grade-filter-label">Showing students in Grade {{ selectedGradeTab }}</p>
+
+      <div *ngIf="filteredStudents.length; else noStudents">
+        <table class="student-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Grade</th>
+              <th>Admission #</th>
+              <th>DOB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of filteredStudents">
+              <td>{{ student.firstName }} {{ student.middleName }} {{ student.lastName }}</td>
+              <td>{{ student.gender }}</td>
+              <td>{{ student.grade }}</td>
+              <td>{{ student.admissionNumber }}</td>
+              <td>{{ student.dateOfBirth }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noStudents>
+        <p class="empty-state">No students exist in Grade {{ selectedGradeTab }} yet.</p>
+      </ng-template>
+    </section>
+  </main>
+</div>

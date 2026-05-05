@@ -1,0 +1,84 @@
+<div class="teachers-page">
+  <section class="teacher-form-card">
+    <h2>Add Teacher</h2>
+    <form (ngSubmit)="addTeacher()" #teacherForm="ngForm" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input id="firstName" name="firstName" type="text" [(ngModel)]="firstName" required />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" name="lastName" type="text" [(ngModel)]="lastName" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input id="subject" name="subject" type="text" [(ngModel)]="subject" required />
+        </div>
+        <div class="form-group">
+          <label for="grade">Grade</label>
+          <select id="grade" name="grade" [(ngModel)]="grade" required>
+            <option *ngFor="let gradeOption of grades" [value]="gradeOption">Grade {{ gradeOption }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="employeeId">Employee ID</label>
+          <input id="employeeId" name="employeeId" type="text" [(ngModel)]="employeeId" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" [(ngModel)]="email" required />
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="teacherForm.invalid">Add Teacher</button>
+    </form>
+  </section>
+
+  <section class="teacher-list-card">
+    <div class="teacher-list-header">
+      <h2>Teacher List</h2>
+      <div class="delete-by-id">
+        <label for="deleteId">Delete by Employee ID</label>
+        <input id="deleteId" name="deleteId" type="text" [(ngModel)]="deleteId" placeholder="Enter ID" />
+        <button type="button" (click)="deleteTeacherById()" [disabled]="!deleteId.trim()">Delete</button>
+      </div>
+    </div>
+
+    <div *ngIf="teachers.length; else noTeachers">
+      <table class="teacher-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Subject</th>
+            <th>Grade</th>
+            <th>Employee ID</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let teacher of teachers; let i = index">
+            <td>{{ teacher.firstName }} {{ teacher.lastName }}</td>
+            <td>{{ teacher.subject }}</td>
+            <td>{{ teacher.grade }}</td>
+            <td>{{ teacher.employeeId }}</td>
+            <td>{{ teacher.email }}</td>
+            <td>
+              <button type="button" class="delete-row" (click)="deleteTeacher(i)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noTeachers>
+      <p class="empty-state">No teachers added yet. Use the form above to create a teacher.</p>
+    </ng-template>
+  </section>
+</div>

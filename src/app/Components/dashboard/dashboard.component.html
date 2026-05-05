@@ -5,7 +5,7 @@
       <h1>School name goes here</h1>
     </div>
     <div class="navbar-menu">
-      <span class="user-info">Welcome, User</span>
+      <span class="user-info">Welcome, {{username}}</span>
       <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
   </nav>
@@ -14,11 +14,11 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <ul class="sidebar-menu">
-        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a></li>
         <li><a href="#">Timetable</a></li>
         <li><a href="#">Calendar</a></li>
-        <li><a href="#">Students</a></li>
-        <li><a href="#">Teachers</a></li>
+        <li><a routerLink="/students" routerLinkActive="active">Students</a></li>
+        <li><a routerLink="/teachers" routerLinkActive="active">Teachers</a></li>
         <li><a href="#">Finance</a></li>
         <li><a href="#">Exams</a></li>
       </ul>
