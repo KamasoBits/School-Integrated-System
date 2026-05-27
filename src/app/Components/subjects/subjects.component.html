@@ -1,0 +1,69 @@
+<div class="subjects-page">
+  <header class="page-header">
+    <p class="eyebrow">CBC curriculum overview</p>
+    <h1>Subjects Offered Under the Competency-Based Curriculum</h1>
+    <p class="intro-text">
+      This page presents the full CBC subject structure across Pre-Primary, Lower Primary, Upper Primary, Junior Secondary, and Senior School.
+      Each section highlights core learning areas, available elective options, and the pathway structure for Senior School.
+    </p>
+  </header>
+
+  <section class="stage-list">
+    <article class="stage-card" *ngFor="let stage of stages">
+      <div class="stage-header">
+        <h2>{{ stage.title }}</h2>
+      </div>
+      <p class="stage-description">{{ stage.description }}</p>
+
+      <div class="subjects-columns">
+        <div class="subject-group">
+          <h3>Core subjects</h3>
+          <ul>
+            <li *ngFor="let subject of stage.coreSubjects">{{ subject }}</li>
+          </ul>
+        </div>
+
+        <div class="subject-group" *ngIf="stage.optionalSubjects?.length">
+          <h3>Optional subjects</h3>
+          <div class="subject-tags">
+            <span class="subject-tag" *ngFor="let subject of stage.optionalSubjects">{{ subject }}</span>
+          </div>
+          <p class="optional-note" *ngIf="stage.note">{{ stage.note }}</p>
+        </div>
+      </div>
+
+      <p class="stage-note" *ngIf="stage.note && !stage.optionalSubjects?.length">{{ stage.note }}</p>
+    </article>
+  </section>
+
+  <section class="stage-card senior-school-card">
+    <div class="stage-header">
+      <h2>Senior School (Grades 10–12)</h2>
+    </div>
+    <p class="stage-description">
+      Senior School combines compulsory preparation with pathway specialization. All learners take four required subjects, then choose three specialized subjects within one of three pathways.
+    </p>
+
+    <div class="subject-group">
+      <h3>Compulsory subjects</h3>
+      <ul>
+        <li *ngFor="let subject of seniorSchoolRequired">{{ subject }}</li>
+      </ul>
+    </div>
+
+    <div class="pathway-grid">
+      <article class="pathway-card" *ngFor="let pathway of seniorPathways">
+        <h3>{{ pathway.name }}</h3>
+        <p class="pathway-focus">{{ pathway.focus }}</p>
+        <h4>Recommended subjects</h4>
+        <ul>
+          <li *ngFor="let subject of pathway.subjects">{{ subject }}</li>
+        </ul>
+      </article>
+    </div>
+
+    <p class="senior-note">
+      Students select three specialized subjects from their chosen pathway in addition to the four compulsory subjects.
+    </p>
+  </section>
+</div>

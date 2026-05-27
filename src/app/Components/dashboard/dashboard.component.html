@@ -19,8 +19,9 @@
         <li><a href="#">Calendar</a></li>
         <li><a routerLink="/students" routerLinkActive="active">Students</a></li>
         <li><a routerLink="/teachers" routerLinkActive="active">Teachers</a></li>
+        <li><a routerLink="/subjects" routerLinkActive="active">Subjects</a></li>
         <li><a href="#">Finance</a></li>
-        <li><a href="#">Exams</a></li>
+        <li><a routerLink="/exams" routerLinkActive="active">Exams</a></li>
       </ul>
     </aside>
 
@@ -45,6 +46,21 @@
           <p class="stat-number">5</p>
         </div>
       </div>
+
+      <section class="activities-section">
+        <div class="section-header">
+          <h3>Upcoming School Activities</h3>
+          <p>Activities will be added throughout the school term so staff and learners can stay informed.</p>
+        </div>
+        <div class="activities-grid">
+          <article class="activity-card" *ngFor="let activity of upcomingActivities">
+            <div class="activity-date">{{ activity.date }}</div>
+            <h4>{{ activity.title }}</h4>
+            <p>{{ activity.description }}</p>
+            <span class="activity-status" [ngClass]="statusClass(activity.status)">{{ activity.status }}</span>
+          </article>
+        </div>
+      </section>
     </main>
   </div>
 </div>

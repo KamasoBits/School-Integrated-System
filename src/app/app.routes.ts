@@ -4,6 +4,7 @@ import { SignupComponent } from './Components/signup/signup.component';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { StudentsComponent } from './Components/students/students.component';
 import { TeachersComponent } from './Components/teachers/teachers.component';
+import { SubjectsComponent } from './Components/subjects/subjects.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'students', component: StudentsComponent },
-  { path: 'teachers', component: TeachersComponent }
+  { path: 'teachers', component: TeachersComponent },
+  { path: 'subjects', component: SubjectsComponent }
 ];
