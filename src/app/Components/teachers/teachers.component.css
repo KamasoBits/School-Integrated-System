@@ -68,8 +68,7 @@ button[type="submit"] {
   color: white;
 }
 
-button[type="submit"]:disabled,
-.delete-by-id button:disabled {
+button[type="submit"]:disabled {
   background: #94a3b8;
   cursor: not-allowed;
 }
@@ -78,34 +77,59 @@ button[type="submit"]:disabled,
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
   margin-bottom: 18px;
 }
 
-.delete-by-id {
-  display: flex;
+.filter-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
   align-items: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
+  flex: 1;
 }
 
-.delete-by-id label {
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  margin-bottom: 6px;
   font-weight: 600;
   color: #334155;
+  font-size: 0.9rem;
 }
 
-.delete-by-id input {
+.filter-group input,
+.filter-group select {
   padding: 10px 12px;
   border: 1px solid #cbd5e1;
   border-radius: 10px;
-  min-width: 180px;
   background: #f8fafc;
+  color: #0f172a;
 }
 
-.delete-by-id button {
-  background: #ef4444;
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.clear-btn {
+  background: #6b7280;
   color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.clear-btn:hover {
+  background: #4b5563;
 }
 
 .teacher-table {

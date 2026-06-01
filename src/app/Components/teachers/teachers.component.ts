@@ -25,7 +25,11 @@ export class TeachersComponent {
   grade: string = '1';
   employeeId: string = '';
   email: string = '';
-  deleteId: string = '';
+
+  // Filter properties
+  filterSubject: string = '';
+  filterGrade: string = '';
+  filterEmployeeId: string = '';
 
   teachers: Teacher[] = [];
   grades: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
@@ -62,21 +66,18 @@ export class TeachersComponent {
     this.teachers.splice(index, 1);
   }
 
-  deleteTeacherById() {
-    if (!this.deleteId.trim()) {
-      alert('Please enter a teacher ID to delete.');
-      return;
-    }
+  get filteredTeachers(): Teacher[] {
+    return this.teachers.filter(teacher => {
+      const matchSubject = this.filterSubject.trim() === '' || teacher.subject.toLowerCase().includes(this.filterSubject.toLowerCase());
+      const matchGrade = this.filterGrade === '' || teacher.grade === this.filterGrade;
+      const matchEmployeeId = this.filterEmployeeId.trim() === '' || teacher.employeeId.toLowerCase().includes(this.filterEmployeeId.toLowerCase());
+      return matchSubject && matchGrade && matchEmployeeId;
+    });
+  }
 
-    const originalLength = this.teachers.length;
-    this.teachers = this.teachers.filter((teacher) => teacher.employeeId !== this.deleteId.trim());
-    const removed = originalLength - this.teachers.length;
-
-    if (removed > 0) {
-      alert(`Deleted ${removed} teacher(s) with ID ${this.deleteId.trim()}.`);
-      this.deleteId = '';
-    } else {
-      alert(`No teacher found with ID ${this.deleteId.trim()}.`);
-    }
+  clearFilters() {
+    this.filterSubject = '';
+    this.filterGrade = '';
+    this.filterEmployeeId = '';
   }
 }

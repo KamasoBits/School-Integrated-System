@@ -1,0 +1,142 @@
+<div class="results-page">
+  <header class="page-header">
+    <p class="eyebrow">Student Performance</p>
+    <h1>Grade 1–12 Results Entry</h1>
+    <p class="intro-text">
+      Select a grade to enter results for students. Each grade has specific subjects taught. Enter marks for each subject and save.
+    </p>
+  </header>
+
+  <section class="grade-buttons">
+    <button
+      type="button"
+      class="grade-button"
+      *ngFor="let grade of grades"
+      [class.active]="grade === selectedGrade"
+      (click)="selectGrade(grade)"
+    >
+      Grade {{ grade }}
+    </button>
+  </section>
+
+  <section *ngIf="!selectedGrade" class="empty-state">
+    <p>Select a grade to enter results for students in that class.</p>
+  </section>
+
+  <section *ngIf="selectedGrade as grade" class="results-entry-card">
+    <div class="results-header">
+      <div>
+        <p class="eyebrow">Grade {{ grade }}</p>
+        <h2>Enter Results for Grade {{ grade }}</h2>
+      </div>
+      <p class="schedule-note">
+        Select a student and enter marks for {{ selectedSubjects.length }} subjects offered in this grade.
+      </p>
+    </div>
+
+    <div class="form-section">
+      <div class="form-group">
+        <label for="studentSelect">Select Student</label>
+        <select id="studentSelect" [(ngModel)]="selectedStudent" (change)="onStudentChange()" class="student-select">
+          <option value="">-- Choose a student --</option>
+          <option *ngFor="let student of studentsInSelectedGrade" [value]="student.id">
+            {{ student.firstName }} {{ student.lastName }} (ID: {{ student.id }})
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="selectedStudent" class="marks-entry-section">
+        <h3>Enter Marks for {{ selectedStudentData?.firstName }} {{ selectedStudentData?.lastName }}</h3>
+        <div class="subjects-grid">
+          <div class="subject-mark-field" *ngFor="let subject of selectedSubjects">
+            <label [for]="'mark-' + subject">{{ subject }}</label>
+            <input
+              [id]="'mark-' + subject"
+              type="number"
+              min="0"
+              max="100"
+              [(ngModel)]="currentResults[subject]"
+              placeholder="0-100"
+              class="mark-input"
+            />
+            <span class="mark-out-of">/100</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" (click)="submitResults()" class="submit-btn">Save Results</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="studentResults.length" class="results-list-card">
+    <h2>Submitted Results</h2>
+    <div class="results-table-container">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Grade</th>
+            <th>Subjects & Marks</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of studentResults; let i = index">
+            <td>{{ getStudentName(result.studentId) }}</td>
+            <td>Grade {{ result.grade }}</td>
+            <td>
+              <div class="marks-display">
+                <span class="mark-chip" *ngFor="let subject of selectedSubjects">
+                  <strong>{{ subject }}:</strong> {{ result.results[subject] }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button type="button" class="edit-btn" (click)="openEditModal(i)">Edit</button>
+                <button type="button" class="print-btn" (click)="printResults(i)">Print</button>
+                <button type="button" class="delete-btn" (click)="deleteResult(i)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Edit Modal -->
+  <div *ngIf="isEditModalOpen" class="modal-overlay" (click)="closeEditModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Edit Student Results</h2>
+        <button type="button" class="close-btn" (click)="closeEditModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="student-info-display">
+          <p><strong>Student:</strong> {{ getStudentName(editingResultData?.studentId || '') }}</p>
+          <p><strong>Grade:</strong> {{ editingResultData?.grade }}</p>
+        </div>
+        <div class="edit-marks-grid">
+          <div class="edit-mark-field" *ngFor="let subject of getGradeSubjectsForResult(editingResultData?.grade || '')">
+            <label [for]="'edit-' + subject">{{ subject }}</label>
+            <input
+              [id]="'edit-' + subject"
+              type="number"
+              min="0"
+              max="100"
+              [(ngModel)]="editingResults[subject]"
+              class="edit-mark-input"
+            />
+            <span class="mark-out-of">/100</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="cancel-btn" (click)="closeEditModal()">Cancel</button>
+        <button type="button" class="save-btn" (click)="saveEditedResults()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>

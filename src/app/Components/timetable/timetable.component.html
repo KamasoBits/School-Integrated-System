@@ -1,1 +1,61 @@
-<p>timetable works!</p>
+<div class="timetable-page">
+  <header class="page-header">
+    <p class="eyebrow">Class timetables</p>
+    <h1>Grade 1–12 timetable generator</h1>
+    <p class="intro-text">
+      Click any grade button to show that class's weekly timetable. Each lesson is 40 minutes long, with eight lessons per day scheduled from 08:00 to 15:30.
+    </p>
+  </header>
+
+  <section class="grade-buttons">
+    <button
+      type="button"
+      class="grade-button"
+      *ngFor="let grade of grades"
+      [class.active]="grade === selectedGrade"
+      (click)="selectGrade(grade)"
+    >
+      Grade {{ grade }}
+    </button>
+  </section>
+
+  <section *ngIf="!selectedGrade" class="empty-state">
+    <p>Select a grade to generate its timetable.</p>
+  </section>
+
+  <section *ngIf="selectedGrade as grade" class="timetable-card">
+    <div class="timetable-header">
+      <div>
+        <p class="eyebrow">Grade {{ grade }}</p>
+        <h2>{{ getGradeTitle(grade) }}</h2>
+      </div>
+      <p class="schedule-note">
+        8 lessons per day · 40 minutes each · start 08:00 · finish 15:30 with breaks built into the schedule.
+      </p>
+    </div>
+
+    <div class="subject-summary">
+      <strong>Subjects used:</strong>
+      <span class="subject-chip" *ngFor="let subject of selectedSubjects; trackBy: trackByIndex">{{ subject }}</span>
+    </div>
+
+    <div class="table-scroll">
+      <table class="timetable-table">
+        <thead>
+          <tr>
+            <th>Period</th>
+            <th>Time</th>
+            <th *ngFor="let day of weekDays">{{ day }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of timetableRows">
+            <td class="period-cell">P{{ row.period }}</td>
+            <td>{{ row.time }}</td>
+            <td *ngFor="let lesson of row.lessons">{{ lesson }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

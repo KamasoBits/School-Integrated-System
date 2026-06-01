@@ -42,16 +42,30 @@
   </section>
 
   <section class="teacher-list-card">
+    <h2>Teacher List</h2>
     <div class="teacher-list-header">
-      <h2>Teacher List</h2>
-      <div class="delete-by-id">
-        <label for="deleteId">Delete by Employee ID</label>
-        <input id="deleteId" name="deleteId" type="text" [(ngModel)]="deleteId" placeholder="Enter ID" />
-        <button type="button" (click)="deleteTeacherById()" [disabled]="!deleteId.trim()">Delete</button>
+      
+      <div class="filter-section">
+        <div class="filter-group">
+          <label for="filterSubject">Filter by Subject</label>
+          <input id="filterSubject" name="filterSubject" type="text" [(ngModel)]="filterSubject" placeholder="Enter subject" />
+        </div>
+        <div class="filter-group">
+          <label for="filterGrade">Filter by Grade</label>
+          <select id="filterGrade" name="filterGrade" [(ngModel)]="filterGrade">
+            <option value="">All Grades</option>
+            <option *ngFor="let gradeOption of grades" [value]="gradeOption">Grade {{ gradeOption }}</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filterEmployeeId">Filter by Employee ID</label>
+          <input id="filterEmployeeId" name="filterEmployeeId" type="text" [(ngModel)]="filterEmployeeId" placeholder="Enter ID" />
+        </div>
+        <button type="button" (click)="clearFilters()" class="clear-btn">Clear Filters</button>
       </div>
     </div>
 
-    <div *ngIf="teachers.length; else noTeachers">
+    <div *ngIf="filteredTeachers.length; else noTeachers">
       <table class="teacher-table">
         <thead>
           <tr>
@@ -64,7 +78,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let teacher of teachers; let i = index">
+          <tr *ngFor="let teacher of filteredTeachers; let i = index">
             <td>{{ teacher.firstName }} {{ teacher.lastName }}</td>
             <td>{{ teacher.subject }}</td>
             <td>{{ teacher.grade }}</td>
