@@ -1,0 +1,196 @@
+<div class="finance-page">
+  <header class="finance-header">
+    <h2>School Finance Management</h2>
+    <p>Manage school balance, track expenditures, and record student payments.</p>
+  </header>
+
+  <!-- Balance & Expenditure Cards -->
+  <div class="finance-overview">
+    <div class="balance-card">
+      <h3>Current School Balance</h3>
+      <p class="amount">KES {{ schoolBalance | number }}</p>
+      <p class="label">Available Funds</p>
+    </div>
+
+    <div class="expenditure-card">
+      <h3>Total School Expenditure</h3>
+      <p class="amount">KES {{ totalExpenditure | number }}</p>
+      <p class="label">Year to Date</p>
+    </div>
+
+    <div class="income-card">
+      <h3>Total Income</h3>
+      <p class="amount">KES {{ totalIncome | number }}</p>
+      <p class="label">Year to Date</p>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="finance-tabs">
+    <button type="button" [class.active]="activeTab === 'overview'" (click)="setTab('overview')">Overview</button>
+    <button type="button" [class.active]="activeTab === 'feeStructure'" (click)="setTab('feeStructure')">Fee Structure</button>
+    <button type="button" [class.active]="activeTab === 'payments'" (click)="setTab('payments')">Student Payments</button>
+    <button type="button" [class.active]="activeTab === 'records'" (click)="setTab('records')">Financial Records</button>
+    <button type="button" [class.active]="activeTab === 'reports'" (click)="setTab('reports')">Reports</button>
+  </div>
+
+  <!-- Overview Tab -->
+  <section *ngIf="activeTab === 'overview'" class="finance-section">
+    <div class="section-card">
+      <h3>Quick Actions</h3>
+      <div class="quick-actions">
+        <div class="action-box">
+          <label for="receiptStudent">Record Student Payment</label>
+          <select id="receiptStudent" [(ngModel)]="receiptStudent" name="receiptStudent">
+            <option value="">Select student</option>
+            <option *ngFor="let p of studentPayments" [value]="p.studentId">{{ p.studentName }} ({{ p.studentId }})</option>
+          </select>
+          <input type="number" [(ngModel)]="receiptAmount" name="receiptAmount" placeholder="Amount (KES)" />
+          <button type="button" (click)="recordPayment()">Generate Receipt</button>
+        </div>
+
+        <div class="action-box">
+          <label for="newExpense">Record Expense</label>
+          <input type="text" id="newExpense" [(ngModel)]="newExpense" name="newExpense" placeholder="Description" />
+          <input type="number" [(ngModel)]="newExpenseAmount" name="newExpenseAmount" placeholder="Amount (KES)" />
+          <select [(ngModel)]="newExpenseCategory" name="newExpenseCategory">
+            <option value="Payroll">Payroll</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Operations">Operations</option>
+            <option value="Maintenance">Maintenance</option>
+            <option value="Other">Other</option>
+          </select>
+          <button type="button" (click)="recordExpense()">Record Expense</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fee Structure Tab -->
+  <section *ngIf="activeTab === 'feeStructure'" class="finance-section">
+    <div class="section-card">
+      <h3>Fee Structure by Grade</h3>
+      <table class="fee-table">
+        <thead>
+          <tr>
+            <th>Grade</th>
+            <th>Annual Fee (KES)</th>
+            <th>Per Term (KES)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fee of feeStructures">
+            <td>Grade {{ fee.grade }}</td>
+            <td>{{ fee.amount | number }}</td>
+            <td>{{ fee.amount / 3 | number: '1.0-0' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Student Payments Tab -->
+  <section *ngIf="activeTab === 'payments'" class="finance-section">
+    <div class="section-card">
+      <h3>Student Payment Tracking</h3>
+      <div class="filter-controls">
+        <label for="gradeFilter">Filter by Grade</label>
+        <select id="gradeFilter" [(ngModel)]="selectedGradeFilter" name="selectedGradeFilter">
+          <option value="">All Grades</option>
+          <option *ngFor="let f of feeStructures" [value]="f.grade">Grade {{ f.grade }}</option>
+        </select>
+      </div>
+
+      <div class="payment-summary">
+        <p>Total Expected: KES {{ totalFeesExpected | number }}</p>
+        <p>Total Paid: KES {{ totalFeesPaid | number }}</p>
+        <p>Outstanding: KES {{ totalOutstanding | number }}</p>
+      </div>
+
+      <table class="payment-table">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Grade</th>
+            <th>Fee Amount</th>
+            <th>Amount Paid</th>
+            <th>Outstanding</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let payment of filteredPayments">
+            <td>{{ payment.studentName }}</td>
+            <td>{{ payment.grade }}</td>
+            <td>{{ payment.feeAmount | number }}</td>
+            <td>{{ payment.amountPaid | number }}</td>
+            <td>{{ payment.outstanding | number }}</td>
+            <td>
+              <span class="status" [ngClass]="payment.outstanding === 0 ? 'paid' : 'outstanding'">
+                {{ payment.outstanding === 0 ? 'Paid' : 'Outstanding' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Financial Records Tab -->
+  <section *ngIf="activeTab === 'records'" class="finance-section">
+    <div class="section-card">
+      <h3>Financial Transactions</h3>
+      <table class="records-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Amount (KES)</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of financialRecords" [ngClass]="record.type">
+            <td>{{ record.date }}</td>
+            <td>{{ record.description }}</td>
+            <td>{{ record.category }}</td>
+            <td>{{ record.amount | number }}</td>
+            <td><span class="type-badge" [ngClass]="record.type">{{ record.type | uppercase }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Reports Tab -->
+  <section *ngIf="activeTab === 'reports'" class="finance-section">
+    <div class="section-card">
+      <h3>Financial Reports & Summaries</h3>
+      <div class="report-grid">
+        <div class="report-box">
+          <h4>Balance Summary</h4>
+          <p>Current Balance: <strong>KES {{ schoolBalance | number }}</strong></p>
+          <p>Net Income: <strong>KES {{ (totalIncome - totalExpenditure) | number }}</strong></p>
+          <p>Margin: <strong>{{ ((totalIncome - totalExpenditure) / totalIncome * 100) | number: '1.0-1' }}%</strong></p>
+        </div>
+
+        <div class="report-box">
+          <h4>Fee Collection Status</h4>
+          <p>Collection Rate: <strong>{{ (totalFeesPaid / totalFeesExpected * 100) | number: '1.0-1' }}%</strong></p>
+          <p>Total Outstanding: <strong>KES {{ totalOutstanding | number }}</strong></p>
+          <p>Students Count: <strong>{{ studentPayments.length }}</strong></p>
+        </div>
+
+        <div class="report-box">
+          <h4>Expense Breakdown</h4>
+          <p>Income: <strong>KES {{ incomeTotal | number }}</strong></p>
+          <p>Expenses: <strong>KES {{ expenseTotal | number }}</strong></p>
+          <p>Surplus/Deficit: <strong [ngClass]="(incomeTotal - expenseTotal) > 0 ? 'positive' : 'negative'">KES {{ (incomeTotal - expenseTotal) | number }}</strong></p>
+        </div>
+      </div>
+
+      <button type="button" class="download-btn" (click)="downloadFinancialReport()">Download Full Report</button>
+    </div>
+  </section>
+</div>

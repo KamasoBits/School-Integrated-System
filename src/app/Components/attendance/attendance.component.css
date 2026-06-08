@@ -1,0 +1,224 @@
+.attendance-page {
+  padding: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  color: #2b2b2b;
+}
+
+.attendance-header {
+  margin-bottom: 1.5rem;
+}
+
+.attendance-header h2 {
+  margin: 0 0 0.35rem;
+  font-size: 2rem;
+}
+
+.attendance-header p {
+  margin: 0;
+  color: #575757;
+}
+
+.attendance-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.attendance-tabs button {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  padding: 0.85rem 1.1rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  color: #172b4d;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.attendance-tabs button.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.attendance-panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+
+.panel-title h3 {
+  margin: 0 0 0.25rem;
+}
+
+.panel-title p {
+  margin: 0 0 1.2rem;
+  color: #4b5563;
+}
+
+.panel-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+.panel-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.panel-controls input,
+.panel-controls select {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.65rem;
+  background: #ffffff;
+}
+
+.attendance-summary.compact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.attendance-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+th,
+td {
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  text-align: left;
+}
+
+th {
+  background: #f9fafb;
+  color: #374151;
+  font-weight: 600;
+}
+
+.status-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-right: 0.8rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.status-toggle input {
+  accent-color: #2563eb;
+}
+
+.panel-actions {
+  text-align: right;
+}
+
+.save-btn {
+  background: #2563eb;
+  border: none;
+  color: #ffffff;
+  padding: 0.95rem 1.4rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-card {
+  padding: 1.2rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.85rem;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.wide-card {
+  grid-column: span 2;
+}
+
+.summary-card h4 {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  color: #111827;
+}
+
+.summary-card p {
+  margin: 0;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 0.8rem;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 0.8rem;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.recent-records {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.4rem;
+}
+
+.recent-records h4 {
+  margin: 0 0 1rem;
+}
+
+.recent-records table {
+  width: 100%;
+  min-width: 720px;
+}
+
+.recent-records p {
+  margin: 0;
+  color: #4b5563;
+}
+
+
+@media (max-width: 960px) {
+  .panel-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .wide-card {
+    grid-column: span 1;
+  }
+}

@@ -1,0 +1,189 @@
+<div class="attendance-page">
+  <header class="attendance-header">
+    <div>
+      <h2>Attendance Management</h2>
+      <p>Record daily student attendance, monitor staff attendance, and review attendance reports and analytics.</p>
+    </div>
+  </header>
+
+  <div class="attendance-tabs">
+    <button type="button" [class.active]="activeTab === 'students'" (click)="setTab('students')">Student Attendance</button>
+    <button type="button" [class.active]="activeTab === 'staff'" (click)="setTab('staff')">Staff Attendance</button>
+    <button type="button" [class.active]="activeTab === 'reports'" (click)="setTab('reports')">Reports & Analytics</button>
+  </div>
+
+  <section *ngIf="activeTab === 'students'" class="attendance-panel">
+    <div class="panel-title">
+      <h3>Daily Student Attendance</h3>
+      <p>Track student presence by grade for the selected date and save the attendance session.</p>
+    </div>
+
+    <div class="panel-controls">
+      <label>
+        Date
+        <input type="date" [(ngModel)]="selectedDate" />
+      </label>
+
+      <label>
+        Grade
+        <select [(ngModel)]="selectedGrade">
+          <option *ngFor="let grade of gradeOptions" [value]="grade">{{ grade }}</option>
+        </select>
+      </label>
+
+      <div class="attendance-summary compact">
+        <span>Present: {{ studentPresentCount }}</span>
+        <span>Absent: {{ studentAbsentCount }}</span>
+        <span>Total: {{ filteredStudents.length }}</span>
+      </div>
+    </div>
+
+    <div class="attendance-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Admission No.</th>
+            <th>Name</th>
+            <th>Grade</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of filteredStudents">
+            <td>{{ student.admissionNumber }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.grade }}</td>
+            <td>
+              <label class="status-toggle">
+                <input type="radio" name="student-{{ student.admissionNumber }}" [(ngModel)]="student.status" [value]="'Present'" />
+                <span>Present</span>
+              </label>
+              <label class="status-toggle">
+                <input type="radio" name="student-{{ student.admissionNumber }}" [(ngModel)]="student.status" [value]="'Absent'" />
+                <span>Absent</span>
+              </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel-actions">
+      <button class="save-btn" type="button" (click)="saveStudentAttendance()">Save Student Attendance</button>
+    </div>
+  </section>
+
+  <section *ngIf="activeTab === 'staff'" class="attendance-panel">
+    <div class="panel-title">
+      <h3>Staff Attendance Monitoring</h3>
+      <p>Monitor staff presence and keep a daily attendance log for teachers and administrators.</p>
+    </div>
+
+    <div class="panel-controls">
+      <label>
+        Date
+        <input type="date" [(ngModel)]="selectedDate" />
+      </label>
+
+      <div class="attendance-summary compact">
+        <span>Present: {{ staffPresentCount }}</span>
+        <span>Absent: {{ staffAbsentCount }}</span>
+        <span>Total: {{ staffMembers.length }}</span>
+      </div>
+    </div>
+
+    <div class="attendance-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let staff of staffMembers">
+            <td>{{ staff.name }}</td>
+            <td>{{ staff.role }}</td>
+            <td>
+              <label class="status-toggle">
+                <input type="radio" name="staff-{{ staff.name }}" [(ngModel)]="staff.status" [value]="'Present'" />
+                <span>Present</span>
+              </label>
+              <label class="status-toggle">
+                <input type="radio" name="staff-{{ staff.name }}" [(ngModel)]="staff.status" [value]="'Absent'" />
+                <span>Absent</span>
+              </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel-actions">
+      <button class="save-btn" type="button" (click)="saveStaffAttendance()">Save Staff Attendance</button>
+    </div>
+  </section>
+
+  <section *ngIf="activeTab === 'reports'" class="attendance-panel">
+    <div class="panel-title">
+      <h3>Attendance Reports & Analytics</h3>
+      <p>Review recent attendance sessions, summary totals, and the current overall attendance rate.</p>
+    </div>
+
+    <div class="report-grid">
+      <div class="summary-card">
+        <h4>Students Present</h4>
+        <p>{{ studentPresentCount }}</p>
+      </div>
+      <div class="summary-card">
+        <h4>Students Absent</h4>
+        <p>{{ studentAbsentCount }}</p>
+      </div>
+      <div class="summary-card">
+        <h4>Staff Present</h4>
+        <p>{{ staffPresentCount }}</p>
+      </div>
+      <div class="summary-card">
+        <h4>Staff Absent</h4>
+        <p>{{ staffAbsentCount }}</p>
+      </div>
+      <div class="summary-card wide-card">
+        <h4>Overall Attendance Rate</h4>
+        <p>{{ overallAttendanceRate }}%</p>
+        <div class="progress-bar">
+          <span [style.width.%]="overallAttendanceRate"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="recent-records">
+      <h4>Recent Attendance Logs</h4>
+      <table *ngIf="attendanceLogs.length; else noRecords">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Group</th>
+            <th>Present</th>
+            <th>Absent</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of attendanceLogs">
+            <td>{{ log.date }}</td>
+            <td>{{ log.type }}</td>
+            <td>{{ log.group }}</td>
+            <td>{{ log.presentCount }}</td>
+            <td>{{ log.absentCount }}</td>
+            <td>{{ log.details }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noRecords>
+        <p>No attendance records available yet. Save a student or staff session to generate reports.</p>
+      </ng-template>
+    </div>
+  </section>
+</div>

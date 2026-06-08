@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReportsService } from '../../Services/reports.service';
 
 interface Student {
   id: string;
@@ -23,6 +24,7 @@ interface StudentResult {
   styleUrl: './results.component.css',
 })
 export class ResultsComponent {
+  constructor(private reports: ReportsService) {}
   grades = Array.from({ length: 12 }, (_, index) => index + 1);
   selectedGrade: number | null = null;
   selectedStudent: string = '';
@@ -122,6 +124,7 @@ export class ResultsComponent {
     };
 
     this.studentResults.push(result);
+    this.reports.updateResults(this.studentResults);
     alert(`Results saved successfully for ${this.selectedStudentData?.firstName} ${this.selectedStudentData?.lastName}`);
     this.selectedStudent = '';
     this.currentResults = {};
@@ -129,6 +132,7 @@ export class ResultsComponent {
 
   deleteResult(index: number): void {
     this.studentResults.splice(index, 1);
+    this.reports.updateResults(this.studentResults);
   }
 
   openEditModal(index: number): void {
@@ -148,6 +152,7 @@ export class ResultsComponent {
   saveEditedResults(): void {
     if (this.editingIndex !== null && this.editingIndex >= 0) {
       this.studentResults[this.editingIndex].results = { ...this.editingResults };
+      this.reports.updateResults(this.studentResults);
       alert(`Results updated successfully for ${this.getStudentName(this.studentResults[this.editingIndex].studentId)}`);
       this.closeEditModal();
     }

@@ -1,0 +1,62 @@
+<div class="reports-page">
+	<h2>Reports center</h2>
+	<div class="card control-card">
+		<h3>Quick Reports</h3>
+		<div class="report-controls">
+			<div class="control">
+				<label for="studentSelect">Individual student</label>
+				<select id="studentSelect" [(ngModel)]="selectedStudentId" name="selectedStudentId">
+					<option value="">Choose student</option>
+					  <option *ngFor="let s of allStudents" [value]="s.admissionNumber || s.id">{{ s.firstName }} {{ s.lastName }} ({{ s.admissionNumber || s.id }})</option>
+				</select>
+				<button (click)="downloadIndividualReport(selectedStudentId)" [disabled]="!selectedStudentId">Download Individual Report</button>
+			</div>
+
+			<div class="control">
+				<label for="gradeSelect">Per-grade report</label>
+				<select id="gradeSelect" [(ngModel)]="selectedGrade" name="selectedGrade">
+					<option value="">Choose grade</option>
+					<option *ngFor="let g of grades" [value]="g">Grade {{ g }}</option>
+				</select>
+				<button (click)="downloadGradeReport(selectedGrade)" [disabled]="!selectedGrade">Download Grade Report</button>
+			</div>
+		</div>
+	</div>
+	<div class="reports-grid">
+		<div class="card">
+			<h3>Student Performance</h3>
+			<p>Grades with averages:</p>
+			<ul>
+				<li *ngFor="let p of performanceSummary">Grade {{ p.grade }} — Avg: {{ p.average }}%</li>
+			</ul>
+			<button (click)="downloadReport('performance')">Download Performance Report</button>
+		</div>
+
+		<div class="card">
+			<h3>Attendance Reports</h3>
+			<p>Total students: {{ studentCount }}</p>
+			<p>Recent attendance logs:</p>
+			<ul>
+				<li *ngFor="let r of recentAttendance">{{ r.date }} — Present: {{ r.present }} Absent: {{ r.absent }}</li>
+			</ul>
+			<button (click)="downloadReport('attendance')">Download Attendance Report</button>
+		</div>
+
+		<div class="card">
+			<h3>Financial Reports</h3>
+			<p>Recent records: {{ financials.length }}</p>
+			<button (click)="downloadReport('financial')">Download Financials</button>
+		</div>
+
+		<div class="card wide">
+			<h3>Administrative Dashboard</h3>
+			<p>Summary metrics</p>
+			<ul>
+				<li>Students: {{ studentCount }}</li>
+				<li>Attendance logs: {{ recentAttendance.length }}</li>
+				<li>Performance grades: {{ performanceSummary.length }}</li>
+			</ul>
+			<button (click)="downloadReport('students')">Download Summary</button>
+		</div>
+	</div>
+</div>

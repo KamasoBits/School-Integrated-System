@@ -1,0 +1,315 @@
+.finance-page {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.finance-header {
+  margin-bottom: 1.5rem;
+}
+
+.finance-header h2 {
+  margin: 0 0 0.35rem;
+  font-size: 2rem;
+  color: #111827;
+}
+
+.finance-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.finance-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.balance-card,
+.expenditure-card,
+.income-card {
+  padding: 1.5rem;
+  border-radius: 0.85rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  color: #ffffff;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.expenditure-card {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.income-card {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.balance-card h3,
+.expenditure-card h3,
+.income-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.amount {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.finance-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.finance-tabs button {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  padding: 0.85rem 1.1rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  color: #172b4d;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.finance-tabs button.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.finance-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.85rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+
+.section-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+  color: #111827;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.action-box {
+  padding: 1rem;
+  border: 1px solid #f3f4f6;
+  border-radius: 0.75rem;
+  background: #fafbfc;
+}
+
+.action-box label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.action-box input,
+.action-box select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.65rem;
+  font-size: 0.95rem;
+}
+
+.action-box button {
+  width: 100%;
+  padding: 0.85rem;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.65rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.filter-controls {
+  margin-bottom: 1rem;
+}
+
+.filter-controls label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.filter-controls select {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.65rem;
+}
+
+.payment-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+}
+
+.payment-summary p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.fee-table,
+.payment-table,
+.records-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.fee-table th,
+.fee-table td,
+.payment-table th,
+.payment-table td,
+.records-table th,
+.records-table td {
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  text-align: left;
+}
+
+.fee-table th,
+.payment-table th,
+.records-table th {
+  background: #f9fafb;
+  font-weight: 700;
+  color: #111827;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status.paid {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status.outstanding {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.records-table tr.income {
+  background: #f0fdf4;
+}
+
+.records-table tr.expense {
+  background: #fef2f2;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.type-badge.income {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.type-badge.expense {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.report-box {
+  padding: 1rem;
+  border: 1px solid #f3f4f6;
+  border-radius: 0.75rem;
+  background: #fafbfc;
+}
+
+.report-box h4 {
+  margin: 0 0 0.75rem;
+  color: #111827;
+}
+
+.report-box p {
+  margin: 0.5rem 0;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.positive {
+  color: #10b981;
+}
+
+.negative {
+  color: #ef4444;
+}
+
+.download-btn {
+  padding: 0.95rem 1.4rem;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@media (max-width: 960px) {
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .finance-tabs {
+    flex-direction: column;
+  }
+
+  .finance-tabs button {
+    width: 100%;
+  }
+}
